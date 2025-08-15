@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Reset UI
       errorDiv.style.display = 'none'
       resultDiv.style.display = 'none'
-      setButtonLoading(button, 'Fetching...')
+      setButtonLoading(button)
 
       try {
         const response = await fetch('/mcp', {
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         errorText.textContent = err instanceof Error ? err.message : 'An error occurred'
         errorDiv.style.display = 'block'
       } finally {
-        resetButton(button, 'Fetch Tools List')
+        resetButton(button)
       }
     })
   } else {
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Reset UI
       helloError.style.display = 'none'
       helloResult.style.display = 'none'
-      setButtonLoading(button, 'Calling...')
+      setButtonLoading(button)
 
       try {
         const name = nameInput.value.trim()
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         helloErrorText.textContent = err instanceof Error ? err.message : 'An error occurred'
         helloError.style.display = 'block'
       } finally {
-        resetButton(button, 'Call Hello Tool')
+        resetButton(button)
       }
     })
   } else {
@@ -157,17 +157,15 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Utility function to reset button state
-  function resetButton(button, originalText) {
+  function resetButton(button) {
     button.disabled = false
-    button.textContent = originalText
     button.style.opacity = '1'
     button.style.cursor = 'pointer'
   }
 
   // Utility function to set button loading state
-  function setButtonLoading(button, loadingText) {
+  function setButtonLoading(button) {
     button.disabled = true
-    button.textContent = loadingText
     button.style.opacity = '0.6'
     button.style.cursor = 'not-allowed'
   }
