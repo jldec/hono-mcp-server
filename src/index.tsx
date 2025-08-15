@@ -61,32 +61,6 @@ function createMcpServer() {
   return server
 }
 
-// Test endpoint to verify hello tool functionality
-app.get('/test/hello', async (c) => {
-  const name = c.req.query('name')
-
-  try {
-    const greeting = generateHelloGreeting(name)
-
-    return c.json({
-      success: true,
-      result: greeting,
-      timestamp: new Date().toISOString(),
-      tool: 'hello',
-      parameters: { name: name || 'world' }
-    })
-  } catch (error) {
-    return c.json(
-      {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
-        tool: 'hello'
-      },
-      500
-    )
-  }
-})
-
 // MCP endpoint - handles JSON-RPC requests over HTTP
 app.all('/mcp', async (c) => {
   const mcpServer = createMcpServer()
