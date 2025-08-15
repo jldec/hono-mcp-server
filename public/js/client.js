@@ -1,106 +1,79 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Utility function to handle MCP responses (both JSON and event-stream)
-  // Fetch Tools List functionality
   const fetchToolsBtn = document.getElementById('fetchToolsBtn')
-
-  if (fetchToolsBtn) {
-    fetchToolsBtn.addEventListener('click', async function () {
-      const button = this
-      const errorDiv = document.getElementById('errorMessage')
-      const resultDiv = document.getElementById('toolsListResult')
-      const errorText = document.getElementById('errorText')
-
-      // Reset UI
-      errorDiv.style.display = 'none'
-      resultDiv.style.display = 'none'
-      setButtonLoading(button)
-
-      try {
-        const response = await fetch('/mcp', {
-          method: 'POST',
-          headers: {
-            accept: 'application/json, text/event-stream',
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            jsonrpc: '2.0',
-            id: 1,
-            method: 'tools/list'
-          })
-        })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
-        await handleMcpResponse(response, document.getElementById('toolsListContent'), resultDiv)
-      } catch (err) {
-        errorText.textContent = err instanceof Error ? err.message : 'An error occurred'
-        errorDiv.style.display = 'block'
-      } finally {
-        resetButton(button)
-      }
-    })
-  } else {
-    console.warn('Fetch tools button not found in the DOM')
-  }
-
-  // Hello Tool functionality
   const helloToolBtn = document.getElementById('helloToolBtn')
+  const nameInput = document.getElementById('nameInput')
 
-  if (helloToolBtn) {
-    helloToolBtn.addEventListener('click', async function () {
-      const button = this
-      const nameInput = document.getElementById('nameInput')
-      const errorDiv = document.getElementById('errorMessage')
-      const errorText = document.getElementById('errorText')
-      const helloResult = document.getElementById('helloResult')
-      const helloContent = document.getElementById('helloContent')
+  const errorContent = document.getElementById('errorMessage')
+  const helloContent = document.getElementById('helloContent')
+  const toolsListContent = document.getElementById('toolsListContent')
 
-      // Reset UI
-      errorDiv.style.display = 'none'
-      helloResult.style.display = 'none'
-      setButtonLoading(button)
-
-      try {
-        const name = nameInput.value.trim()
-        const params = name ? { name } : {}
-
-        const response = await fetch('/mcp', {
-          method: 'POST',
-          headers: {
-            accept: 'application/json, text/event-stream',
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            jsonrpc: '2.0',
-            id: 2,
-            method: 'tools/call',
-            params: {
-              name: 'hello',
-              arguments: params
-            }
-          })
-        })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
-        await handleMcpResponse(response, helloContent, helloResult)
-      } catch (err) {
-        errorText.textContent = err instanceof Error ? err.message : 'An error occurred'
-        errorDiv.style.display = 'block'
-      } finally {
-        resetButton(button)
-      }
-    })
-  } else {
-    console.warn('Hello tool button not found in the DOM')
+  if (
+    !fetchToolsBtn ||
+    !helloToolBtn ||
+    !nameInput ||
+    !errorContent ||
+    !helloContent ||
+    !toolsListContent
+  ) {
+    console.error('One or more elements not found in the DOM - see client.js')
+    return
   }
 
-  async function handleMcpResponse(response, resultElement, resultDiv) {
+  fetchToolsBtn.addEventListener('click', async function () {
+    await fetchMcpRequest(
+      {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'tools/list'
+      },
+      toolsListContent
+    )
+  })
+
+  helloToolBtn.addEventListener('click', async function () {
+    const name = nameInput.value.trim()
+    const params = name ? { name } : {}
+    await fetchMcpRequest(
+      {
+        jsonrpc: '2.0',
+        id: 2,
+        method: 'tools/call',
+        params: {
+          name: 'hello',
+          arguments: params
+        }
+      },
+      helloContent
+    )
+  })
+
+  async function fetchMcpRequest(rpcPayload, resultElement) {
+    try {
+      const response = await fetch('/mcp', {
+        method: 'POST',
+        headers: {
+          accept: 'application/json, text/event-stream',
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(rpcPayload)
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      await handleMcpResponse(response, resultElement)
+    } catch (err) {
+      error(err)
+    }
+  }
+
+  function error(err) {
+    errorContent.textContent = err instanceof Error ? err.stack || err.message : 'An error occurred'
+    errorContent.classList.remove('hidden')
+  }
+
+  async function handleMcpResponse(response, resultElement) {
     const contentType = response.headers.get('content-type')
+    resultElement.classList.remove('hidden')
 
     if (contentType && contentType.includes('text/event-stream')) {
       // Handle Server-Sent Events
@@ -141,32 +114,15 @@ document.addEventListener('DOMContentLoaded', function () {
         })
 
         resultElement.textContent = JSON.stringify(parsedEvents, null, 2)
-        resultDiv.style.display = 'block'
       } catch (streamErr) {
         // If stream reading fails, try to show raw response
         const rawText = await response.text()
         resultElement.textContent = rawText
-        resultDiv.style.display = 'block'
       }
     } else {
       // Handle regular JSON response
       const data = await response.json()
       resultElement.textContent = JSON.stringify(data, null, 2)
-      resultDiv.style.display = 'block'
     }
-  }
-
-  // Utility function to reset button state
-  function resetButton(button) {
-    button.disabled = false
-    button.style.opacity = '1'
-    button.style.cursor = 'pointer'
-  }
-
-  // Utility function to set button loading state
-  function setButtonLoading(button) {
-    button.disabled = true
-    button.style.opacity = '0.6'
-    button.style.cursor = 'not-allowed'
   }
 })
