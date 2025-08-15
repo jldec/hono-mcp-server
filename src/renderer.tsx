@@ -12,7 +12,7 @@ export const renderer = jsxRenderer(({ children }) => {
         <script src="/js/client.js"></script>
         <title>Hono MCP Server</title>
       </head>
-      <body class="font-sans leading-relaxed m-0 p-5 bg-gray-100">{children}</body>
+      <body class="m-0 p-2 bg-gray-100">{children}</body>
     </html>
   )
 })
