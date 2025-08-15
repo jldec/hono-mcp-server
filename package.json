@@ -25,7 +25,7 @@
     "build": "vite build",
     "preview": "vite build && vite preview",
     "types": "wrangler types --env-interface CloudflareBindings --include-runtime=false --strict-vars=false",
-    "ship": "wrangler deploy",
+    "ship": "vite build && wrangler deploy",
     "check": "tsc && vite build && wrangler deploy --dry-run"
   },
   "prettier": {
