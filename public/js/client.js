@@ -52,13 +52,13 @@ document.addEventListener('DOMContentLoaded', function () {
     helloToolBtn.addEventListener('click', async function () {
       const button = this
       const nameInput = document.getElementById('nameInput')
-      const helloError = document.getElementById('helloError')
+      const errorDiv = document.getElementById('errorMessage')
+      const errorText = document.getElementById('errorText')
       const helloResult = document.getElementById('helloResult')
-      const helloErrorText = document.getElementById('helloErrorText')
       const helloContent = document.getElementById('helloContent')
 
       // Reset UI
-      helloError.style.display = 'none'
+      errorDiv.style.display = 'none'
       helloResult.style.display = 'none'
       setButtonLoading(button)
 
@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         await handleMcpResponse(response, helloContent, helloResult)
       } catch (err) {
-        helloErrorText.textContent = err instanceof Error ? err.message : 'An error occurred'
-        helloError.style.display = 'block'
+        errorText.textContent = err instanceof Error ? err.message : 'An error occurred'
+        errorDiv.style.display = 'block'
       } finally {
         resetButton(button)
       }
