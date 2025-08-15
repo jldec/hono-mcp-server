@@ -11,13 +11,27 @@ export default function Home() {
         </li>
       </ul>
 
-      <h2>Test Examples:</h2>
+      <h2>MCP Tools List:</h2>
+      <button id="fetchToolsBtn" class="fetch-button">
+        Fetch Tools List
+      </button>
+
+      <div id="errorMessage" class="error-message">
+        <strong>Error:</strong> <span id="errorText"></span>
+      </div>
+
+      <div id="toolsListResult" class="tools-result">
+        <h3>Tools List Response:</h3>
+        <pre id="toolsListContent" class="tools-content"></pre>
+      </div>
+
       <p>
         <strong>Simple test:</strong> <a href="/test/hello">GET /test/hello</a>
       </p>
       <p>
         <strong>With name:</strong> <a href="/test/hello?name=Alice">GET /test/hello?name=Alice</a>
       </p>
+
     </div>
   )
 }
