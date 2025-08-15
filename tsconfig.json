@@ -1,14 +1,17 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.worker.json" }
-],
-"compilerOptions": {
-    "types": [
-        "./worker-configuration.d.ts",
-        "node"
-    ]
-}
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "lib": ["ESNext"],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["@cloudflare/workers-types/2023-07-01", "./worker-configuration.d.ts", "vite/client"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx"
+  }
 }
