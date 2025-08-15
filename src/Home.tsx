@@ -20,7 +20,7 @@ export default function Home() {
         </button>
       </div>
 
-      <div id="errorMessage" class="mt-4 p-2 bg-red-100 text-red-800 border border-red-200 rounded-md hidden" />
+      <div id="errorMessage" class="mt-4 p-2 bg-red-100 text-red-700 border border-red-200 rounded-md hidden" />
       <pre id="helloContent" class="bg-gray-50 mt-4 p-4 rounded-md overflow-auto border border-gray-200 hidden"></pre>
       <pre id="toolsListContent" class="bg-gray-50 mt-4 p-4 rounded-md overflow-auto border border-gray-200 hidden"></pre>
 
