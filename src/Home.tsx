@@ -1,11 +1,11 @@
 export default function Home() {
   return (
     <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-      <h1 class="text-4xl font-bold text-gray-800 pb-3">hono-mcp-server</h1>
+      <h1 class="text-4xl font-bold text-gray-800 mb-6 border-b border-gray-300">hono-mcp-server</h1>
+
       <p class="text-gray-600">Demo MCP server at <code class="bg-gray-100 px-1.5 py-0.5 rounded-md">POST /mcp</code></p>
 
-      <h2 class="text-xl font-semibold text-gray-700 mt-8 mb-2">Test hello tool</h2>
-      <div class="flex gap-3 items-center mb-4">
+      <div class="flex gap-3 items-center my-4">
         <input
           type="text"
           id="nameInput"
