@@ -115,3 +115,61 @@ strong {
   overflow: auto;
   border: 1px solid #dee2e6;
 }
+
+/* Hello Tool Styles */
+.hello-tool-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.name-input {
+  flex: 1;
+  max-width: 20rem;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.name-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.hello-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.hello-button:hover {
+  background-color: #218838;
+}
+
+.hello-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.hello-result {
+  margin-top: 20px;
+  display: none;
+}
+
+.hello-content {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  overflow: auto;
+  border: 1px solid #dee2e6;
+}
