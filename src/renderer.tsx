@@ -10,9 +10,9 @@ export const renderer = jsxRenderer(({ children }) => {
         <ViteClient />
         <Link href="/src/style.css" rel="stylesheet" />
         <script src="/js/client.js"></script>
-        <title>Hello World MCP Server</title>
+        <title>Hono MCP Server</title>
       </head>
-      <body>{children}</body>
+      <body class="font-sans leading-relaxed m-0 p-5 bg-gray-100">{children}</body>
     </html>
   )
 })
